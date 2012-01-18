@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#ffc700"
+    android:padding="5dp" >
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp" >
+        
+	    <Spinner android:id="@+id/gender_spinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="53dp"
+	        android:prompt="@string/select_gender"
+	        android:entries="@array/genders"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="10dp" >
+        </Spinner>
+    </RelativeLayout>
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="3dp" >
+        
+        <TextView android:id="@+id/mass_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight:"
+            android:layout_alignParentLeft="true" />
+        
+        <TextView android:id="@+id/mass_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    
+    <SeekBar android:id="@+id/mass_slider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="40"
+        android:progress="15" />
+    
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="3dp" >
+        
+        <TextView android:id="@+id/standarddrinks_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Standard Drinks:"
+            android:layout_alignParentLeft="true" />
+        
+        <TextView android:id="@+id/standarddrinks_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    
+    <SeekBar android:id="@+id/standarddrinks_slider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="39"
+        android:progress="9" />
+    
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="3dp" >
+        
+        <TextView android:id="@+id/time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time since first drink:"
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true" />
+        
+        <TextView android:id="@+id/time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    
+    <SeekBar android:id="@+id/time_slider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="23"
+        android:progress="5" />
+    
+    <TextView 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:text="Approx. BAC:"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp" />
+    
+    <TextView android:id="@+id/bac"
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content" 
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="32sp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/textview_white"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+    
+</LinearLayout>
+    
+    

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+        
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="#d3d3d3"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="#ffad00"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
+    
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+        
+        <!--  The splash screen image -->
+
+        <ImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ivSplash"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/splash_screen" />
+    
+    </LinearLayout>
+                    
+</RelativeLayout>
+
