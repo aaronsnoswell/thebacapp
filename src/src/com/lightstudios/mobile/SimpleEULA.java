@@ -57,6 +57,7 @@ public class SimpleEULA {
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
                     .setView(view)
+                    .setCancelable(false)
                     .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
                     	
                         @Override
