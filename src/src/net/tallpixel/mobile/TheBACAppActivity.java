@@ -1,7 +1,9 @@
-package com.lightstudios.mobile;
+package net.tallpixel.mobile;
 
 import java.text.NumberFormat;
 import java.util.Date;
+
+import com.flurry.android.FlurryAgent;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -37,6 +39,10 @@ public class TheBACAppActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+	    // Initialise Flurry analytics
+	    FlurryAgent.onStartSession(this, this.getString(R.string.flurry_key));
+	    FlurryAgent.setUseHttps(true);
 	    
 	    // Store start time to determine how long to show the splash screen for
 	    final long start_time = new Date().getTime();
@@ -171,6 +177,13 @@ public class TheBACAppActivity extends Activity {
 	    }
 	    
         
+	}
+	
+	public void onStop() {
+	   super.onStop();
+	   
+	   // End the flurry analytics session
+	   FlurryAgent.onEndSession(this);
 	}
 	
 	public void recalculateBAC() {

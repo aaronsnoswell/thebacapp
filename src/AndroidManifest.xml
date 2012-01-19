@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lightstudios.mobile"
+    package="net.tallpixel.mobile"
     android:versionCode="1"
     android:versionName="1.0"
     android:installLocation="auto" >
 
-    <uses-sdk android:minSdkVersion="10" />
+    <uses-sdk android:minSdkVersion="9" />
+    <uses-sdk android:targetSdkVersion="10" />
     
     <!-- Hide app from tablets in the market -->
     <supports-screens android:xlargeScreens="false" />
+    
+    <!-- Add the internet permission for Flurry analytics -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:icon="@drawable/ic_launcher"

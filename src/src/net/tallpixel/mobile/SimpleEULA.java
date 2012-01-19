@@ -1,4 +1,6 @@
-package com.lightstudios.mobile;
+package net.tallpixel.mobile;
+
+import com.flurry.android.FlurryAgent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -78,6 +80,10 @@ public class SimpleEULA {
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putBoolean(eulaKey, true);
                             editor.commit();
+                            
+                            // Log that the user accepted the EULA
+                            FlurryAgent.logEvent("EULA_ACCEPTED");
+                            
                             dialogInterface.dismiss();
                         }
                     })
@@ -85,6 +91,10 @@ public class SimpleEULA {
                     	
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							
+                            // Log that the user declined the EULA
+                            FlurryAgent.logEvent("EULA_DECLINED");
+							
 							// Close the activity as they have declined the EULA
 							mActivity.finish(); 
 						}

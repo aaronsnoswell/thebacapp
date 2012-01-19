@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">The BAC App</string>
+    <string name="flurry_key">P841LZMFI54RIMIV38QG</string>
     
     <string name="updates"><![CDATA[Thanks for trying my app! I\'d love to hear any feedback or ideas you have - email me at <a href="mailto:tallpixelator@gmail.com" style="color:#6273F0">tallpixelator@gmail.com</a>.]]></string>
     <string name="eula"><![CDATA[<strong>Legal Stuff:</strong> Stay safe and drink responsibly. This application (app) is meant only for entertainment and should be treated as such - Blood Alcohol Content values are approximations only. By using this application you agree that Tall Pixel cannot be held responsible for any damages or loss of life in any way associated with use of this app. You also accept all responsibility for use of this application whilst installed on this device (including use by persons other than yourself).<br /><br />THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]></string>
