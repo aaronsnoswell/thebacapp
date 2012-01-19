@@ -60,8 +60,6 @@ public class TheBACAppActivity extends Activity {
 	         * to set up some UI stuff
 	         */
 	        
-	        new SimpleEULA(this).show();
-	        
 	        // Set up the gender spinner
 	        Spinner genderSpinner = (Spinner) this.findViewById(R.id.gender_spinner);
 	        //ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.genders, android.R.layout.simple_spinner_item);
@@ -248,6 +246,9 @@ public class TheBACAppActivity extends Activity {
 	    if(splash_dialog != null) {
 	    	splash_dialog.dismiss();
 	    	splash_dialog = null;
+
+	        // Show the EULA
+	        new SimpleEULA(this).show();
 	    }
 	}
 	 
