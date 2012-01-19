@@ -11,6 +11,9 @@ import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -49,14 +52,23 @@ public class SimpleEULA {
             String message = mActivity.getString(R.string.updates) + "<br /><br />" + mActivity.getString(R.string.eula);
             
             // Wrap it up in a webview
-            message = "<html><body style='background:#000;padding:5px;font-size:14pt;color:#eee;'>" + message.toString() + "</body></html>";
-            WebView view = new WebView(mActivity);
-            view.setVerticalScrollBarEnabled(false);
-            view.loadData(message, "text/html", "utf-8");
+            message = "<html><body style='background:#000;font-size:14pt;color:#eee;padding:0px;'>" + message.toString() + "</body></html>";
+            WebView webview = new WebView(mActivity);
+            webview.setVerticalScrollBarEnabled(true);
+            webview.setBackgroundColor(android.R.color.black);
+            webview.setPadding(5, 5, 5, 5);
+            webview.loadData(message, "text/html", "utf-8");
+            webview.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					// Don't do anything and don't bubble
+					return true;
+				}
+            });
             
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                     .setTitle(title)
-                    .setView(view)
+                    .setView(webview)
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
                     	
@@ -79,6 +91,7 @@ public class SimpleEULA {
                     	
                     });
             final AlertDialog d = builder.create();
+            
             d.show();
         }
     }
