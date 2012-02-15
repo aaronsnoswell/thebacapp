@@ -24,6 +24,8 @@ public class SimpleEULA {
 	private String EULA_PREFIX = "eula_";
 	private Activity mActivity;
 	
+	public Boolean visible = false;
+	
 	public SimpleEULA(Activity context) {
 		mActivity = context;
 	}
@@ -45,7 +47,7 @@ public class SimpleEULA {
 		final String eulaKey = EULA_PREFIX + versionInfo.versionCode;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean hasBeenShown = prefs.getBoolean(eulaKey, false);
-        if(hasBeenShown == false){
+        if(hasBeenShown == false) {
         	
         	// Show the Eula
             String title = mActivity.getString(R.string.app_name) + " v" + versionInfo.versionName;
@@ -85,6 +87,7 @@ public class SimpleEULA {
                             FlurryAgent.logEvent("EULA_ACCEPTED");
                             
                             dialogInterface.dismiss();
+                            visible = false;
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
@@ -95,6 +98,8 @@ public class SimpleEULA {
                             // Log that the user declined the EULA
                             FlurryAgent.logEvent("EULA_DECLINED");
 							
+                            visible = false;
+                            
 							// Close the activity as they have declined the EULA
 							mActivity.finish(); 
 						}
@@ -103,6 +108,7 @@ public class SimpleEULA {
             final AlertDialog d = builder.create();
             
             d.show();
+            visible = true;
         }
     }
 	

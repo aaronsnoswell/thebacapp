@@ -105,24 +105,39 @@
         android:max="23"
         android:progress="5" />
     
-    <TextView 
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" 
-        android:text="Approx. BAC:"
-        android:gravity="center_horizontal"
-        android:layout_margin="10dp" />
-    
-    <TextView android:id="@+id/bac"
-        android:layout_width="fill_parent"  
-        android:layout_height="wrap_content" 
-        android:text=""
-        android:textColor="#000000"
-        android:textSize="32sp"
-        android:gravity="center_horizontal"
-        android:background="@drawable/textview_white"
-        android:padding="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+            <TextView 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:text="Approx."
+                android:gravity="center_horizontal"
+                android:layout_margin="10dp" />
+            <TextView 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:text="B.A.C"
+                android:gravity="center_horizontal"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+        
+        <TextView android:id="@+id/bac"
+            android:layout_width="0dp"  
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+            android:text=""
+            android:gravity="align_right"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+        
+    </RelativeLayout>
     
 </LinearLayout>
     

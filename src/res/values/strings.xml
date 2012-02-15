@@ -4,6 +4,9 @@
     <string name="app_name">The BAC App</string>
     <string name="flurry_key">P841LZMFI54RIMIV38QG</string>
     
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    
     <string name="updates"><![CDATA[Thanks for trying my app! I\'d love to hear any feedback or ideas you have - email me at <a href="mailto:tallpixelator@gmail.com" style="color:#6273F0">tallpixelator@gmail.com</a>.]]></string>
     <string name="eula"><![CDATA[<strong>Legal Stuff:</strong> Stay safe and drink responsibly. This application (app) is meant only for entertainment and should be treated as such - Blood Alcohol Content values are approximations only. By using this application you agree that Tall Pixel cannot be held responsible for any damages or loss of life in any way associated with use of this app. You also accept all responsibility for use of this application whilst installed on this device (including use by persons other than yourself).<br /><br />THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]></string>
     
@@ -12,5 +15,27 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
+    
+    <string name="menu_preferences">Settings</string>
+    
+    <string name="preferences_display_unit_title">Select Units</string>
+    <string name="preferences_display_unit_summary">Select Imperial (lbs) or SI (kg) units</string>
+    <string-array name="preferences_display_unit">
+        <item>SI (kg)</item>
+        <item>Imperial (lbs)</item>
+    </string-array>
+    <string-array name="preferences_display_unit_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    
+    <string name="preferences_bac_limit_title">Set B.A.C. Limit</string>
+    <string name="preferences_bac_limit_summary">Set the legal BAC % for your region</string>
+    
+    
+    <string name="preferences_clear_data_title">Clear Data</string>
+    <string name="preferences_clear_data_summary">Reset all items to their default</string>
+    <string name="preferences_clear_data_dialog_message">Are you sure you want to reset all data back to the defaults?</string>
+    <string name="preferences_clear_data_dialog_confirm">Data cleared</string>
+    
 </resources>

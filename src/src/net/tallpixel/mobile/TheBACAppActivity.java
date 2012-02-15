@@ -3,15 +3,25 @@ package net.tallpixel.mobile;
 import java.text.NumberFormat;
 import java.util.Date;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import com.flurry.android.FlurryAgent;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Xml;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -28,12 +38,22 @@ public class TheBACAppActivity extends Activity {
 	protected Dialog splash_dialog;
 	final int SPLASH_TIME = 1500;
 	
+	SharedPreferences settings;
+	
+	SeekBar massSlider;
+	SeekBar standarddrinksSlider;
+	SeekBar timeSlider;
+	
 	String gender;
 	TextView massValue;
 	TextView standarddrinksValue;
 	TextView timeValue;
-	
-	float limit = 0.05f;
+
+	final float KG_TO_LBS = 2.20462262f;
+	final float LBS_TO_KG = 0.45359237f;
+	float MASS_CONVERSION;
+	float INV_MASS_CONVERSION;
+	String MASS_UNIT;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -43,9 +63,12 @@ public class TheBACAppActivity extends Activity {
 	    // Initialise Flurry analytics
 	    FlurryAgent.onStartSession(this, this.getString(R.string.flurry_key));
 	    FlurryAgent.setUseHttps(true);
-	    
+
 	    // Store start time to determine how long to show the splash screen for
 	    final long start_time = new Date().getTime();
+	    
+	    // Get hold of the preferences
+	    settings = PreferenceManager.getDefaultSharedPreferences(this);
 	    
 	    MyStateSaver data = (MyStateSaver) getLastNonConfigurationInstance();
 	    if(data != null) {
@@ -65,6 +88,9 @@ public class TheBACAppActivity extends Activity {
 	         * whilst the splash screen is displayed. As we don't, we're just using the UI thread
 	         * to set up some UI stuff
 	         */
+
+	        // Recalculate the units
+			recalculateUnits();
 	        
 	        // Set up the gender spinner
 	        Spinner genderSpinner = (Spinner) this.findViewById(R.id.gender_spinner);
@@ -88,11 +114,21 @@ public class TheBACAppActivity extends Activity {
 
 	        // Set up the mass slider
 	        massValue = (TextView) (this.findViewById(R.id.mass_value));
-	        SeekBar massSlider = (SeekBar) (this.findViewById(R.id.mass_slider));
+	        massSlider = (SeekBar) (this.findViewById(R.id.mass_slider));
 	        massSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-					massValue.setText(String.valueOf(progress*2+40)+"kg");
+					float f = 0.5f;
+					float mass = (progress*2 + 40) * MASS_CONVERSION;
+					
+					// Round to nearest half
+					mass = (float) (Math.round(mass / f) * f);
+					
+					NumberFormat nf = NumberFormat.getInstance();
+					nf.setMinimumFractionDigits(1);
+					nf.setMaximumFractionDigits(1);
+					
+					massValue.setText(nf.format(mass) + MASS_UNIT);
 					recalculateBAC();
 				}
 				@Override
@@ -110,7 +146,7 @@ public class TheBACAppActivity extends Activity {
 	        
 	        // Set up the standard drinks slider
 	        standarddrinksValue = (TextView) (this.findViewById(R.id.standarddrinks_value));
-	        SeekBar standarddrinksSlider = (SeekBar) (this.findViewById(R.id.standarddrinks_slider));
+	        standarddrinksSlider = (SeekBar) (this.findViewById(R.id.standarddrinks_slider));
 	        standarddrinksSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -132,7 +168,7 @@ public class TheBACAppActivity extends Activity {
 	        
 	        // Set up the time slider
 	        timeValue = (TextView) (this.findViewById(R.id.time_value));
-	        SeekBar timeSlider = (SeekBar) (this.findViewById(R.id.time_slider));
+	        timeSlider = (SeekBar) (this.findViewById(R.id.time_slider));
 	        timeSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -158,8 +194,7 @@ public class TheBACAppActivity extends Activity {
 	        long ready_time = new Date().getTime();
 	        float delta = (float) (ready_time - start_time);
 
-	        /* XXX ajs 27/12/11 The client likes to see the splash screen for a bit,
-	         * even if we finish loading early... This makes me cry a bit inside :(
+	        /* Show the splash screen
 	         */
 	        if(delta >= SPLASH_TIME) {
 	        	removeSplashScreen();
@@ -172,11 +207,26 @@ public class TheBACAppActivity extends Activity {
 				    }
 				}, (int)(SPLASH_TIME - delta));
 	        }
-	        
-			
 	    }
-	    
-        
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.menu_preferences:
+	    	Intent myIntent = new Intent(TheBACAppActivity.this, PreferencesActivity.class);
+	    	TheBACAppActivity.this.startActivity(myIntent);
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	public void onStop() {
@@ -216,7 +266,7 @@ public class TheBACAppActivity extends Activity {
 		try {
 			float A = Float.parseFloat(sA) * 10;
 			float r = (gender.toLowerCase().equals("male")) ? 0.7f : 0.6f;
-			float W = Float.parseFloat(sW.split("kg")[0]) * 1000;
+			float W = Float.parseFloat(sW.split(MASS_UNIT)[0]) * INV_MASS_CONVERSION * 1000;
 			float V = 0.015f;
 			float t = Float.parseFloat(st.split("hrs")[0]);
 			
@@ -231,11 +281,63 @@ public class TheBACAppActivity extends Activity {
 			output.setText(nf.format(bac));
 			
 			// Set the color of the output text
-			//if(bac >= limit) output.setTextColor(colors)
+			float limit = Float.valueOf(settings.getString("pref_bac_limit", "0.05"));
+			if(bac >= limit) {
+				output.setTextAppearance(getApplicationContext(), R.style.Widget_TextView_BAC_OVER);
+			} else {
+				output.setTextAppearance(getApplicationContext(), R.style.Widget_TextView_BAC);
+			}
 			
 		} catch (NumberFormatException e) {
 			return;
 		}
+	}
+
+	/**
+	 * Recalculates units on all values
+	 */
+	public void recalculateUnits() {
+		final int SI = 1,
+				  IMPERIAL = 2;
+		
+		switch(Integer.valueOf(settings.getString("pref_units", "1"))) {
+		case IMPERIAL:
+			MASS_CONVERSION = KG_TO_LBS;
+			INV_MASS_CONVERSION = LBS_TO_KG;
+			MASS_UNIT = "lbs";
+			break;
+		default:
+			MASS_CONVERSION = 1.0f;
+			INV_MASS_CONVERSION = 1.0f;
+			MASS_UNIT = "kg";
+		}
+
+        // Trigger some slider change events
+		if(massSlider != null) {
+	        massSlider.incrementProgressBy(1);
+	        massSlider.incrementProgressBy(-1);
+		}
+
+		if(massSlider != null) {
+	        standarddrinksSlider.incrementProgressBy(1);
+	        standarddrinksSlider.incrementProgressBy(-1);
+		}
+		
+		if(massSlider != null) {
+	        timeSlider.incrementProgressBy(1);
+	        timeSlider.incrementProgressBy(-1);
+		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		// Recalculate units on return from preferences
+		recalculateUnits();
+		
+		// Recalculate the BAC when returning from the preferences activity
+		recalculateBAC();
 	}
 	
 	
@@ -259,7 +361,7 @@ public class TheBACAppActivity extends Activity {
 	    if(splash_dialog != null) {
 	    	splash_dialog.dismiss();
 	    	splash_dialog = null;
-
+	    	
 	        // Show the EULA
 	        new SimpleEULA(this).show();
 	    }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<ListPreference
+	    android:title="@string/preferences_display_unit_title"
+		android:summary="@string/preferences_display_unit_summary"
+		android:key="pref_units"
+        android:entries="@array/preferences_display_unit"
+        android:entryValues="@array/preferences_display_unit_values"
+		android:defaultValue="1" />
+	<EditTextPreference
+        android:title="@string/preferences_bac_limit_title"
+		android:summary="@string/preferences_bac_limit_summary"
+		android:defaultValue="0.05"
+		android:key="pref_bac_limit" />
+    <Preference
+        android:title="@string/preferences_clear_data_title"
+        android:summary="@string/preferences_clear_data_summary"
+        android:key="pref_clear_data" />
+</PreferenceScreen>
